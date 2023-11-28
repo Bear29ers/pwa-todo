@@ -1,0 +1,9 @@
+# config
+*.cjs
+
+# build
+dist/
+build/
+bin
+obj/
+out/
