@@ -80,6 +80,7 @@ const config = {
     'react/react-in-jsx-scope': 'off',
     'react-hooks/exhaustive-deps': 'warn',
     'react/no-unknown-property': ['error', { ignore: ['space'] }],
+    'react/jsx-no-undef': 'off',
     /* react-refresh */
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     /* import */
@@ -134,6 +135,13 @@ const config = {
     ],
     /* unused-imports */
     'unused-imports/no-unused-imports': 'error',
+  },
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
   },
 };
 
