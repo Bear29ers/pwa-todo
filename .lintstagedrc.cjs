@@ -1,5 +1,4 @@
 module.exports = {
-  '**/*.{js,jsx,ts,tsx}': 'eslint --fix',
-  '**/*.{js,jsx,ts,tsx,json}': 'prettier --write',
+  '**/*.{js,jsx,ts,tsx,json}': 'prettier --cache --write',
   '**/*.{html,jsx,tsx}': 'markuplint --fix',
 };
