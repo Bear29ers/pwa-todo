@@ -1,8 +1,14 @@
 import { useState } from 'react';
 
+// "Todo"型の定義
+type Todo = {
+  value: string;
+};
+
 const App = () => {
-  // 初期値: 空文字 ''
   const [text, setText] = useState('');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [todos, setTodos] = useState<Todo[]>([]);
 
   return (
     <div>
