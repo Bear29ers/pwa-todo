@@ -55,7 +55,11 @@ const App = () => {
            * 変更・追加・削除・並び替えを検知するためには、リストの各項目を特定する一意な識別子（key）が必要
            * 配列のindexを利用することは推奨されていない
            */
-          return <li key={todo.id}>{todo.value}</li>;
+          return (
+            <li key={todo.id}>
+              <input type='text' value={todo.value} onChange={(e) => e.preventDefault()} />
+            </li>
+          );
         })}
       </ul>
     </div>
