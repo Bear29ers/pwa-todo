@@ -1,5 +1,11 @@
+const path = require('path');
+
+const buildCommand = (filenames) => {
+  const files = filenames.map((f) => path.relative(process.cwd(), f)).join(' ');
+
+  return [`eslint --max-warnings=0 ${files}`, `prettier --write ${files}`, `markuplint ${files}`];
+};
+
 module.exports = {
-  '**/*.{js,jsx,ts,tsx}': 'eslint --fix',
-  '**/*.{js,jsx,ts,tsx,json}': 'prettier --write',
-  '**/*.{html,jsx,tsx}': 'markuplint --fix',
+  'src/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}': buildCommand,
 };
