@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 
-// "Todo"型の定義
 type Todo = {
   value: string;
 };
 
 const App = () => {
+  /**
+   * コンポーネントに状態を「記憶」させるためのuseState
+   * 現在のstateとそれを更新するための関数を返す
+   * @see https://ja.react.dev/reference/react/useState
+   */
   const [text, setText] = useState('');
   const [_, setTodos] = useState<Todo[]>([]);
 
@@ -23,6 +27,12 @@ const App = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    /**
+     * setStateメソッドの実行はコンポーネントの再レンダリングをトリガーする
+     * 原則としてsetStateメソッドを使ってstateの値を書き換える
+     * （再レンダリングがトリガーされなかったり、immutabilityを保てなくなるため）
+     * @see https://ja.react.dev/learn/tutorial-tic-tac-toe#why-immutability-is-important
+     */
     setText(e.target.value);
   };
 
