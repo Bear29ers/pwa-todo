@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 type Todo = {
   value: string;
   readonly id: number; // 読み取り専用
+  checked: boolean;
 };
 
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
     const newTodo: Todo = {
       value: text,
       id: new Date().getTime(),
+      checked: false, // 初期値はfalse
     };
 
     // スプレッド構文で元のtodos配列のすべての要素を列挙する
@@ -35,6 +37,20 @@ const App = () => {
         if (todo.id === id) {
           // この階層でオブジェクトtodoをコピー・展開し、valueプロパティを上書きする
           return { ...todo, value };
+        }
+        return todo;
+      });
+
+      return newTodos;
+    });
+  };
+
+  // チェックをつける
+  const handleCheck = (id: number, checked: boolean) => {
+    setTodos((prevTodos) => {
+      const newTodos = prevTodos.map((todo) => {
+        if (todo.id === id) {
+          return { ...todo, checked };
         }
         return todo;
       });
@@ -72,6 +88,7 @@ const App = () => {
            */
           return (
             <li key={todo.id}>
+              <input type='checkbox' checked={todo.checked} onChange={() => handleCheck(todo.id, !todo.checked)} />
               <input type='text' value={todo.value} onChange={(e) => handleEdit(todo.id, e.target.value)} />
             </li>
           );
