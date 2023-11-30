@@ -4,6 +4,7 @@ type Todo = {
   value: string;
   readonly id: number; // 読み取り専用
   checked: boolean;
+  removed: boolean;
 };
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
       value: text,
       id: new Date().getTime(),
       checked: false, // 初期値はfalse
+      removed: false,
     };
 
     // スプレッド構文で元のtodos配列のすべての要素を列挙する
