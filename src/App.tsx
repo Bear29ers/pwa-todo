@@ -28,6 +28,21 @@ const App = () => {
     setText('');
   };
 
+  // todoを編集する
+  const handleEdit = (id: number, value: string) => {
+    setTodos((prevTodos) => {
+      const newTodos = prevTodos.map((todo) => {
+        if (todo.id === id) {
+          // この階層でオブジェクトtodoをコピー・展開し、valueプロパティを上書きする
+          return { ...todo, value };
+        }
+        return todo;
+      });
+
+      return newTodos;
+    });
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     /**
      * setStateメソッドの実行はコンポーネントの再レンダリングをトリガーする
@@ -57,7 +72,7 @@ const App = () => {
            */
           return (
             <li key={todo.id}>
-              <input type='text' value={todo.value} onChange={(e) => e.preventDefault()} />
+              <input type='text' value={todo.value} onChange={(e) => handleEdit(todo.id, e.target.value)} />
             </li>
           );
         })}
