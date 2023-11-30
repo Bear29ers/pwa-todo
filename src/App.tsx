@@ -16,6 +16,16 @@ const App = () => {
   const [text, setText] = useState('');
   const [todos, setTodos] = useState<Todo[]>([]);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    /**
+     * setStateメソッドの実行はコンポーネントの再レンダリングをトリガーする
+     * 原則としてsetStateメソッドを使ってstateの値を書き換える
+     * （再レンダリングがトリガーされなかったり、immutabilityを保てなくなるため）
+     * @see https://ja.react.dev/learn/tutorial-tic-tac-toe#why-immutability-is-important
+     */
+    setText(e.target.value);
+  };
+
   // todosを更新する
   const handleSubmit = () => {
     if (!text) return;
@@ -61,14 +71,18 @@ const App = () => {
     });
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    /**
-     * setStateメソッドの実行はコンポーネントの再レンダリングをトリガーする
-     * 原則としてsetStateメソッドを使ってstateの値を書き換える
-     * （再レンダリングがトリガーされなかったり、immutabilityを保てなくなるため）
-     * @see https://ja.react.dev/learn/tutorial-tic-tac-toe#why-immutability-is-important
-     */
-    setText(e.target.value);
+  // 削除する
+  const handleRemove = (id: number, removed: boolean) => {
+    setTodos((prevTodos) => {
+      const newTodos = prevTodos.map((todo) => {
+        if (todo.id === id) {
+          return { ...todo, removed };
+        }
+        return todo;
+      });
+
+      return newTodos;
+    });
   };
 
   return (
@@ -90,13 +104,21 @@ const App = () => {
            */
           return (
             <li key={todo.id}>
-              <input type='checkbox' checked={todo.checked} onChange={() => handleCheck(todo.id, !todo.checked)} />
+              <input
+                type='checkbox'
+                disabled={todo.removed}
+                checked={todo.checked}
+                onChange={() => handleCheck(todo.id, !todo.checked)}
+              />
               <input
                 type='text'
-                disabled={todo.checked}
+                disabled={todo.checked || todo.removed}
                 value={todo.value}
                 onChange={(e) => handleEdit(todo.id, e.target.value)}
               />
+              <button type='button' onClick={() => handleRemove(todo.id, !todo.removed)}>
+                {todo.removed ? '復元' : '削除'}
+              </button>
             </li>
           );
         })}
