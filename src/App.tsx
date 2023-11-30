@@ -89,7 +89,12 @@ const App = () => {
           return (
             <li key={todo.id}>
               <input type='checkbox' checked={todo.checked} onChange={() => handleCheck(todo.id, !todo.checked)} />
-              <input type='text' value={todo.value} onChange={(e) => handleEdit(todo.id, e.target.value)} />
+              <input
+                type='text'
+                disabled={todo.checked}
+                value={todo.value}
+                onChange={(e) => handleEdit(todo.id, e.target.value)}
+              />
             </li>
           );
         })}
