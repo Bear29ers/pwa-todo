@@ -118,24 +118,25 @@ const App = () => {
         <option value="unchecked">現在のタスク</option>
         <option value="removed">ごみ箱</option>
       </select>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit();
-        }}>
-        <input
-          type="text"
-          disabled={filter === 'checked' || filter === 'removed'}
-          value={text}
-          onChange={(e) => handleChange(e)}
-        />
-        <input
-          type="submit"
-          disabled={filter === 'checked' || filter === 'removed'}
-          value="追加"
-          onSubmit={(e) => e.preventDefault()}
-        />
-      </form>
+      {/* フィルターが`removed`のときは「ゴミ箱を空にする」ボタンを表示 */}
+      {filter === 'removed' ? (
+        // eslint-disable-next-line no-console
+        <button type="button" onClick={() => console.log('remove all')}>
+          ゴミ箱を空にする
+        </button>
+      ) : (
+        // フィルターが`checked`でなければTodo入力フォームを表示
+        filter !== 'checked' && (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit();
+            }}>
+            <input type="text" value={text} onChange={(e) => handleChange(e)} />
+            <input type="submit" value="追加" onSubmit={(e) => e.preventDefault()} />
+          </form>
+        )
+      )}
       <ul>
         {filteredTodos.map((todo) => {
           /**
