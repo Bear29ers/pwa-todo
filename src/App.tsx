@@ -110,6 +110,10 @@ const App = () => {
     }
   });
 
+  const handleEmpty = () => {
+    setTodos((prevTodos) => prevTodos.filter((todo) => !todo.removed));
+  };
+
   return (
     <div>
       <select defaultValue="all" onChange={(e) => handleSort(e.target.value as Filter)}>
@@ -121,7 +125,10 @@ const App = () => {
       {/* フィルターが`removed`のときは「ゴミ箱を空にする」ボタンを表示 */}
       {filter === 'removed' ? (
         // eslint-disable-next-line no-console
-        <button type="button" onClick={() => console.log('remove all')}>
+        <button
+          type="button"
+          onClick={() => handleEmpty()}
+          disabled={todos.filter((todo) => todo.removed).length === 0}>
           ゴミ箱を空にする
         </button>
       ) : (
