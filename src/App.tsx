@@ -1,9 +1,11 @@
+import GlobalStyles from '@mui/material/GlobalStyles';
 import React, { useState } from 'react';
 
 import { ActionButton } from './ActionButton';
 import { FormDialog } from './FormDialog';
 import { SideBar } from './SideBar';
 import { TodoItem } from './TodoItem';
+import { ToolBar } from './ToolBar';
 
 const App = () => {
   /**
@@ -76,6 +78,8 @@ const App = () => {
 
   return (
     <div>
+      <GlobalStyles styles={{ body: { margin: 0, padding: 0 } }} />
+      <ToolBar />
       <SideBar onSort={handleSort} />
       <FormDialog text={text} onChange={handleChange} onSubmit={handleSubmit} />
       <TodoItem todos={todos} filter={filter} onTodo={handleTodo} />
