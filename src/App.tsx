@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { ActionButton } from './ActionButton';
 import { FormDialog } from './FormDialog';
+import { SideBar } from './SideBar';
 
 const App = () => {
   /**
@@ -91,12 +92,7 @@ const App = () => {
 
   return (
     <div>
-      <select defaultValue="all" onChange={(e) => handleSort(e.target.value as Filter)}>
-        <option value="all">すべてのタスク</option>
-        <option value="checked">完了したタスク</option>
-        <option value="unchecked">現在のタスク</option>
-        <option value="removed">ごみ箱</option>
-      </select>
+      <SideBar onSort={handleSort} />
       <FormDialog text={text} onChange={handleChange} onSubmit={handleSubmit} />
       <ul>
         {filteredTodos.map((todo) => {
