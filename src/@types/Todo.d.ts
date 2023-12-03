@@ -1,4 +1,5 @@
 /**
+ * Todo型
  * 他ファイルからも参照できるよう、型宣言ファイルとして書き出す
  * @see https://typescript-jp.gitbook.io/deep-dive/type-system/intro/d.ts
  *
