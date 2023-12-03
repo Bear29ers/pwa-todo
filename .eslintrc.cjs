@@ -135,6 +135,13 @@ const config = {
     /* unused-imports */
     'unused-imports/no-unused-imports': 'error',
   },
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
+  },
 };
 
 module.exports = config;

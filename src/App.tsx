@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { FormDialog } from './FormDialog';
+
 const App = () => {
   /**
    * コンポーネントに状態を「記憶」させるためのuseState
@@ -105,16 +107,7 @@ const App = () => {
         </button>
       ) : (
         // フィルターが`checked`でなければTodo入力フォームを表示
-        filter !== 'checked' && (
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmit();
-            }}>
-            <input type="text" value={text} onChange={(e) => handleChange(e)} />
-            <input type="submit" value="追加" onSubmit={(e) => e.preventDefault()} />
-          </form>
-        )
+        filter !== 'checked' && <FormDialog text={text} onChange={handleChange} onSubmit={handleSubmit} />
       )}
       <ul>
         {filteredTodos.map((todo) => {
