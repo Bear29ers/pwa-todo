@@ -1,8 +1,6 @@
 /** @types {import('@jest/types').Config.InitialOptions} */
 
-import type { JestConfigWithTsJest } from 'ts-jest';
-
-const config: JestConfigWithTsJest = {
+const config = {
   // Typescript用プリセット
   preset: 'ts-jest',
   // テスト環境
@@ -13,4 +11,4 @@ const config: JestConfigWithTsJest = {
   coverageReporters: ['text'],
 };
 
-export default config;
+module.exports = config;
