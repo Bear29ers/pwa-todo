@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { ActionButton } from './ActionButton';
 import { FormDialog } from './FormDialog';
 
 const App = () => {
@@ -96,19 +97,7 @@ const App = () => {
         <option value="unchecked">現在のタスク</option>
         <option value="removed">ごみ箱</option>
       </select>
-      {/* フィルターが`removed`のときは「ゴミ箱を空にする」ボタンを表示 */}
-      {filter === 'removed' ? (
-        // eslint-disable-next-line no-console
-        <button
-          type="button"
-          onClick={() => handleEmpty()}
-          disabled={todos.filter((todo) => todo.removed).length === 0}>
-          ゴミ箱を空にする
-        </button>
-      ) : (
-        // フィルターが`checked`でなければTodo入力フォームを表示
-        filter !== 'checked' && <FormDialog text={text} onChange={handleChange} onSubmit={handleSubmit} />
-      )}
+      <FormDialog text={text} onChange={handleChange} onSubmit={handleSubmit} />
       <ul>
         {filteredTodos.map((todo) => {
           /**
@@ -137,6 +126,7 @@ const App = () => {
           );
         })}
       </ul>
+      <ActionButton todos={todos} onEmpty={handleEmpty} />
     </div>
   );
 };
