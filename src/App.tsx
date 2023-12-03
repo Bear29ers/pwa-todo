@@ -79,7 +79,7 @@ const App = () => {
   return (
     <div>
       <GlobalStyles styles={{ body: { margin: 0, padding: 0 } }} />
-      <ToolBar />
+      <ToolBar filter={filter} />
       <SideBar onSort={handleSort} />
       <FormDialog text={text} onChange={handleChange} onSubmit={handleSubmit} />
       <TodoItem todos={todos} filter={filter} onTodo={handleTodo} />
