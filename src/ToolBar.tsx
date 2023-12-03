@@ -9,8 +9,12 @@ type Props = {
   filter: Filter;
 };
 
-// filterの値を書き換える
-const translator = (arg: Filter) => {
+/**
+ * フィルターを書き換える
+ * @param {Filter} arg
+ * @return {string}
+ */
+const translator = (arg: Filter): string => {
   switch (arg) {
     case 'all':
       return 'すべてのタスク';

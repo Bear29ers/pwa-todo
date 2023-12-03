@@ -31,10 +31,14 @@ const App = () => {
    * 現在のstateとそれを更新するための関数を返す
    * @see https://ja.react.dev/reference/react/useState
    */
-  const [text, setText] = useState('');
+  const [text, setText] = useState<string>('');
   const [todos, setTodos] = useState<Todo[]>([]);
   const [filter, setFilter] = useState<Filter>('all');
 
+  /**
+   * 入力フォームを更新する
+   * @param {React.ChangeEvent<HTMLInputElement>} e
+   */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     /**
      * setStateメソッドの実行はコンポーネントの再レンダリングをトリガーする
@@ -45,7 +49,9 @@ const App = () => {
     setText(e.target.value);
   };
 
-  // todosを更新する
+  /**
+   * todoを追加する
+   */
   const handleSubmit = () => {
     if (!text) return;
 
@@ -63,6 +69,10 @@ const App = () => {
 
   /**
    * ジェネリクスを使って更新メソッドをまとめる（編集、完了、削除）
+   * @param {number} id
+   * @param {K} key
+   * @param {V} value
+   *
    * ジェネリクスを使うことで、型も変数のように扱うことができるようになる
    * @see https://typescriptbook.jp/reference/generics
    *
@@ -85,11 +95,17 @@ const App = () => {
     });
   };
 
-  // フィルターを変更する
+  /**
+   * フィルターを変更する
+   * @param {Filter} argFilter
+   */
   const handleSort = (argFilter: Filter) => {
     setFilter(argFilter);
   };
 
+  /**
+   * ごみ箱を空にする
+   */
   const handleEmpty = () => {
     setTodos((prevTodos) => prevTodos.filter((todo) => !todo.removed));
   };
