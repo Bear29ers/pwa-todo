@@ -23,7 +23,7 @@ const config = {
     sourceType: 'module',
     project: './tsconfig.json',
   },
-  plugins: ['import', 'unused-imports', 'jsx-a11y', '@typescript-eslint', 'react-refresh'],
+  plugins: ['import', 'unused-imports', 'jsx-a11y', '@typescript-eslint', 'react-refresh', 'mui-path-imports'],
   rules: {
     /* eslint */
     'no-unused-vars': 'off',
@@ -134,6 +134,8 @@ const config = {
     ],
     /* unused-imports */
     'unused-imports/no-unused-imports': 'error',
+    /* mui-path-imports */
+    'mui-path-imports/mui-path-imports': 'error',
   },
   settings: {
     'import/resolver': {
