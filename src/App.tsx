@@ -45,41 +45,22 @@ const App = () => {
     setText('');
   };
 
-  // todoを編集する
-  const handleEdit = (id: number, value: string) => {
+  /**
+   * ジェネリクスを使って更新メソッドをまとめる（編集、完了、削除）
+   * ジェネリクスを使うことで、型も変数のように扱うことができるようになる
+   * @see https://typescriptbook.jp/reference/generics
+   *
+   * extendsキーワードを使うことで型引数を特定の型に限定する（型引数の制約）
+   * @see https://typescriptbook.jp/reference/generics/type-parameter-constraint
+   *
+   * オブジェクトのプロパティは、keyof演算子で取得する
+   * @see https://typescriptbook.jp/reference/type-reuse/keyof-type-operator
+   */
+  const handleTodo = <K extends keyof Todo, V extends Todo[K]>(id: number, key: K, value: V) => {
     setTodos((prevTodos) => {
       const newTodos = prevTodos.map((todo) => {
         if (todo.id === id) {
-          // この階層でオブジェクトtodoをコピー・展開し、valueプロパティを上書きする
-          return { ...todo, value };
-        }
-        return todo;
-      });
-
-      return newTodos;
-    });
-  };
-
-  // チェックをつける
-  const handleCheck = (id: number, checked: boolean) => {
-    setTodos((prevTodos) => {
-      const newTodos = prevTodos.map((todo) => {
-        if (todo.id === id) {
-          return { ...todo, checked };
-        }
-        return todo;
-      });
-
-      return newTodos;
-    });
-  };
-
-  // 削除する
-  const handleRemove = (id: number, removed: boolean) => {
-    setTodos((prevTodos) => {
-      const newTodos = prevTodos.map((todo) => {
-        if (todo.id === id) {
-          return { ...todo, removed };
+          return { ...todo, [key]: value };
         }
         return todo;
       });
@@ -157,15 +138,15 @@ const App = () => {
                 type="checkbox"
                 disabled={todo.removed}
                 checked={todo.checked}
-                onChange={() => handleCheck(todo.id, !todo.checked)}
+                onChange={() => handleTodo(todo.id, 'checked', !todo.checked)}
               />
               <input
                 type="text"
                 disabled={todo.checked || todo.removed}
                 value={todo.value}
-                onChange={(e) => handleEdit(todo.id, e.target.value)}
+                onChange={(e) => handleTodo(todo.id, 'value', e.target.value)}
               />
-              <button type="button" onClick={() => handleRemove(todo.id, !todo.removed)}>
+              <button type="button" onClick={() => handleTodo(todo.id, 'removed', !todo.removed)}>
                 {todo.removed ? '復元' : '削除'}
               </button>
             </li>
