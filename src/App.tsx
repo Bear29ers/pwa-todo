@@ -1,14 +1,5 @@
 import React, { useState } from 'react';
 
-type Todo = {
-  value: string;
-  readonly id: number; // 読み取り専用
-  checked: boolean;
-  removed: boolean;
-};
-
-type Filter = 'all' | 'checked' | 'unchecked' | 'removed';
-
 const App = () => {
   /**
    * コンポーネントに状態を「記憶」させるためのuseState
