@@ -1,6 +1,7 @@
 # config
 *.cjs
 vite.config.ts
+jest.config.ts
 
 # build
 dist/
