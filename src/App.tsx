@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { ActionButton } from './ActionButton';
 import { FormDialog } from './FormDialog';
 import { SideBar } from './SideBar';
+import { TodoItem } from './TodoItem';
 
 const App = () => {
   /**
@@ -69,23 +70,6 @@ const App = () => {
     setFilter(argFilter);
   };
 
-  // todoをフィルターする
-  const filteredTodos = todos.filter((todo) => {
-    // filter stateの値に応じて異なる内容の配列を返す
-    switch (filter) {
-      case 'all':
-        return !todo.removed;
-      case 'checked':
-        return todo.checked && !todo.removed;
-      case 'unchecked':
-        return !todo.checked && !todo.removed;
-      case 'removed':
-        return todo.removed;
-      default:
-        return todo;
-    }
-  });
-
   const handleEmpty = () => {
     setTodos((prevTodos) => prevTodos.filter((todo) => !todo.removed));
   };
@@ -94,34 +78,7 @@ const App = () => {
     <div>
       <SideBar onSort={handleSort} />
       <FormDialog text={text} onChange={handleChange} onSubmit={handleSubmit} />
-      <ul>
-        {filteredTodos.map((todo) => {
-          /**
-           * Reactはリストをレンダーする際、どのアイテムに変更が加えられたかを特定する必要があるため、
-           * 変更・追加・削除・並び替えを検知するためには、リストの各項目を特定する一意な識別子（key）が必要
-           * 配列のindexを利用することは推奨されていない
-           */
-          return (
-            <li key={todo.id}>
-              <input
-                type="checkbox"
-                disabled={todo.removed}
-                checked={todo.checked}
-                onChange={() => handleTodo(todo.id, 'checked', !todo.checked)}
-              />
-              <input
-                type="text"
-                disabled={todo.checked || todo.removed}
-                value={todo.value}
-                onChange={(e) => handleTodo(todo.id, 'value', e.target.value)}
-              />
-              <button type="button" onClick={() => handleTodo(todo.id, 'removed', !todo.removed)}>
-                {todo.removed ? '復元' : '削除'}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+      <TodoItem todos={todos} filter={filter} onTodo={handleTodo} />
       <ActionButton todos={todos} onEmpty={handleEmpty} />
     </div>
   );
