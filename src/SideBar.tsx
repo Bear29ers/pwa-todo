@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import Avatar from '@mui/material/Avatar';
 import Drawer from '@mui/material/Drawer';
 import Icon from '@mui/material/Icon';
@@ -9,7 +7,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { indigo, pink } from '@mui/material/colors';
-import styled from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 import pjson from '../package.json';
 
