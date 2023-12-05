@@ -34,6 +34,7 @@ const App = () => {
   const [text, setText] = useState<string>('');
   const [todos, setTodos] = useState<Todo[]>([]);
   const [filter, setFilter] = useState<Filter>('all');
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
   /**
    * 入力フォームを更新する
@@ -110,11 +111,18 @@ const App = () => {
     setTodos((prevTodos) => prevTodos.filter((todo) => !todo.removed));
   };
 
+  /**
+   * ドロワーの状態を反転させる
+   */
+  const handleToggleDrawer = () => {
+    setDrawerOpen((prevDrawerOpen) => !prevDrawerOpen);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles styles={{ body: { margin: 0, padding: 0 } }} />
       <ToolBar filter={filter} />
-      <SideBar onSort={handleSort} />
+      <SideBar drawerOpen={drawerOpen} onToggleDrawer={handleToggleDrawer} onSort={handleSort} />
       <FormDialog text={text} onChange={handleChange} onSubmit={handleSubmit} />
       <TodoItem todos={todos} filter={filter} onTodo={handleTodo} />
       <ActionButton todos={todos} onEmpty={handleEmpty} />
