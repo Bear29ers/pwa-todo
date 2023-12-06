@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 
 type Props = {
   filter: Filter;
+  onToggleDrawer: () => void;
 };
 
 /**
@@ -29,11 +30,17 @@ const translator = (arg: Filter): string => {
   }
 };
 
-export const ToolBar = ({ filter }: Props) => (
+export const ToolBar = ({ filter, onToggleDrawer }: Props) => (
   <Box sx={{ flexGrow: 1 }}>
     <AppBar position="static">
       <Toolbar>
-        <IconButton aria-label="menu-button" size="large" edge="start" color="inherit" sx={{ mr: 2 }}>
+        <IconButton
+          aria-label="menu-button"
+          size="large"
+          edge="start"
+          color="inherit"
+          sx={{ mr: 2 }}
+          onClick={onToggleDrawer}>
           <Icon>menu</Icon>
         </IconButton>
         <Typography>{translator(filter)}</Typography>
