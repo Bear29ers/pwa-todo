@@ -1,4 +1,5 @@
 import Avatar from '@mui/material/Avatar';
+import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import Icon from '@mui/material/Icon';
 import List from '@mui/material/List';
@@ -6,7 +7,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { indigo, pink } from '@mui/material/colors';
+import { indigo, lightBlue, pink } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
 
 import pjson from '../package.json';
@@ -47,12 +48,15 @@ const DrawerAvatar = styled(Avatar)(({ theme }: { theme: Theme }) => ({
 export const SideBar = ({ drawerOpen, onToggleDrawer, onSort }: Props) => (
   <Drawer variant="temporary" open={drawerOpen} onClose={onToggleDrawer}>
     <DrawerList role="presentation" onClick={onToggleDrawer}>
+      {/* ヘッダーとアバター */}
       <DrawerHeader>
         <DrawerAvatar>
           <Icon>create</Icon>
         </DrawerAvatar>
+        {/* バージョン表示 */}
         <p>TODO v{pjson.version}</p>
       </DrawerHeader>
+      {/* リスト */}
       <List>
         <ListItem disablePadding>
           <ListItemButton aria-label="list-all" onClick={() => onSort('all')}>
@@ -62,6 +66,31 @@ export const SideBar = ({ drawerOpen, onToggleDrawer, onSort }: Props) => (
             <ListItemText secondary="すべてのタスク" />
           </ListItemButton>
         </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton aria-label="list-unchecked" onClick={() => onSort('unchecked')}>
+            <ListItemIcon>
+              <Icon sx={{ color: lightBlue[500] }}>radio_button_unchecked</Icon>
+            </ListItemIcon>
+            <ListItemText secondary="現在のタスク" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton aria-label="list-checked" onClick={() => onSort('checked')}>
+            <ListItemIcon>
+              <Icon sx={{ color: pink.A200 }}>check_circle_outline</Icon>
+            </ListItemIcon>
+            <ListItemText secondary="完了したタスク" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton aria-label="list-removed" onClick={() => onSort('removed')}>
+            <ListItemIcon>
+              <Icon>delete</Icon>
+            </ListItemIcon>
+            <ListItemText secondary="ごみ箱" />
+          </ListItemButton>
+        </ListItem>
+        <Divider />
       </List>
     </DrawerList>
   </Drawer>
