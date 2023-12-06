@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 
 import { ActionButton } from './ActionButton';
 import { FormDialog } from './FormDialog';
+import { QR } from './QR';
 import { SideBar } from './SideBar';
 import { TodoItem } from './TodoItem';
 import { ToolBar } from './ToolBar';
@@ -35,6 +36,7 @@ const App = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [filter, setFilter] = useState<Filter>('all');
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const [qrOpen, setQrOpen] = useState<boolean>(false);
 
   /**
    * 入力フォームを更新する
@@ -112,10 +114,17 @@ const App = () => {
   };
 
   /**
-   * ドロワーの状態を反転させる
+   * ドロワーの表示状態を反転させる
    */
   const handleToggleDrawer = () => {
     setDrawerOpen((prevDrawerOpen) => !prevDrawerOpen);
+  };
+
+  /**
+   * QRコードの表示状態を反転させる
+   */
+  const handleToggleQR = () => {
+    setQrOpen((prevQrOpen) => !prevQrOpen);
   };
 
   return (
@@ -123,6 +132,7 @@ const App = () => {
       <GlobalStyles styles={{ body: { margin: 0, padding: 0 } }} />
       <ToolBar filter={filter} onToggleDrawer={handleToggleDrawer} />
       <SideBar drawerOpen={drawerOpen} onToggleDrawer={handleToggleDrawer} onSort={handleSort} />
+      <QR open={qrOpen} onClose={handleToggleQR} />
       <FormDialog text={text} onChange={handleChange} onSubmit={handleSubmit} />
       <TodoItem todos={todos} filter={filter} onTodo={handleTodo} />
       <ActionButton todos={todos} onEmpty={handleEmpty} />
