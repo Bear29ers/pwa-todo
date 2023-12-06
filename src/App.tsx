@@ -131,7 +131,12 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <GlobalStyles styles={{ body: { margin: 0, padding: 0 } }} />
       <ToolBar filter={filter} onToggleDrawer={handleToggleDrawer} />
-      <SideBar drawerOpen={drawerOpen} onToggleDrawer={handleToggleDrawer} onSort={handleSort} />
+      <SideBar
+        drawerOpen={drawerOpen}
+        onToggleQR={handleToggleQR}
+        onToggleDrawer={handleToggleDrawer}
+        onSort={handleSort}
+      />
       <QR open={qrOpen} onClose={handleToggleQR} />
       <FormDialog text={text} onChange={handleChange} onSubmit={handleSubmit} />
       <TodoItem todos={todos} filter={filter} onTodo={handleTodo} />

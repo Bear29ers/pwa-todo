@@ -16,6 +16,7 @@ import type { Theme } from '@mui/material/styles';
 
 type Props = {
   drawerOpen: boolean;
+  onToggleQR: () => void;
   onToggleDrawer: () => void;
   onSort: (filter: Filter) => void;
 };
@@ -45,7 +46,7 @@ const DrawerAvatar = styled(Avatar)(({ theme }: { theme: Theme }) => ({
   height: theme.spacing(6),
 }));
 
-export const SideBar = ({ drawerOpen, onToggleDrawer, onSort }: Props) => (
+export const SideBar = ({ drawerOpen, onToggleQR, onToggleDrawer, onSort }: Props) => (
   <Drawer variant="temporary" open={drawerOpen} onClose={onToggleDrawer}>
     <DrawerList role="presentation" onClick={onToggleDrawer}>
       {/* ヘッダーとアバター */}
@@ -91,6 +92,14 @@ export const SideBar = ({ drawerOpen, onToggleDrawer, onSort }: Props) => (
           </ListItemButton>
         </ListItem>
         <Divider />
+        <ListItem disablePadding>
+          <ListItemButton aria-label="list-share" onClick={onToggleQR}>
+            <ListItemIcon>
+              <Icon>share</Icon>
+            </ListItemIcon>
+            <ListItemText secondary="このアプリを共有" />
+          </ListItemButton>
+        </ListItem>
       </List>
     </DrawerList>
   </Drawer>
