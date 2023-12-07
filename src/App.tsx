@@ -37,12 +37,13 @@ const App = () => {
   const [filter, setFilter] = useState<Filter>('all');
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [qrOpen, setQrOpen] = useState<boolean>(false);
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   /**
    * 入力フォームを更新する
    * @param {React.ChangeEvent<HTMLInputElement>} e
    */
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     /**
      * setStateメソッドの実行はコンポーネントの再レンダリングをトリガーする
      * 原則としてsetStateメソッドを使ってstateの値を書き換える
@@ -56,7 +57,10 @@ const App = () => {
    * todoを追加する
    */
   const handleSubmit = () => {
-    if (!text) return;
+    if (!text) {
+      setDialogOpen((prevDialogOpen) => !prevDialogOpen);
+      return;
+    }
 
     const newTodo: Todo = {
       value: text,
@@ -68,6 +72,7 @@ const App = () => {
     // スプレッド構文で元のtodos配列のすべての要素を列挙する
     setTodos((prevTodos) => [newTodo, ...prevTodos]);
     setText('');
+    setDialogOpen((prevDialogOpen) => !prevDialogOpen);
   };
 
   /**
@@ -127,6 +132,15 @@ const App = () => {
     setQrOpen((prevQrOpen) => !prevQrOpen);
   };
 
+  /**
+   * ダイアログの表示状態を反転させる
+   */
+  const handleToggleDialog = () => {
+    setDialogOpen((prevDialogOpen) => !prevDialogOpen);
+    // フォームへの入力をクリア
+    setText('');
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles styles={{ body: { margin: 0, padding: 0 } }} />
@@ -138,7 +152,13 @@ const App = () => {
         onSort={handleSort}
       />
       <QR open={qrOpen} onClose={handleToggleQR} />
-      <FormDialog text={text} onChange={handleChange} onSubmit={handleSubmit} />
+      <FormDialog
+        text={text}
+        dialogOpen={dialogOpen}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        onToggleDialog={handleToggleDialog}
+      />
       <TodoItem todos={todos} filter={filter} onTodo={handleTodo} />
       <ActionButton todos={todos} onEmpty={handleEmpty} />
     </ThemeProvider>
