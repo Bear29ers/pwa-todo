@@ -4,6 +4,7 @@ import { indigo, pink } from '@mui/material/colors';
 import React, { useState } from 'react';
 
 import { ActionButton } from './ActionButton';
+import { AlertDialog } from './AlertDialog';
 import { FormDialog } from './FormDialog';
 import { QR } from './QR';
 import { SideBar } from './SideBar';
@@ -38,6 +39,7 @@ const App = () => {
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [qrOpen, setQrOpen] = useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [alertOpen, setAlertOpen] = useState<boolean>(false);
 
   /**
    * 入力フォームを更新する
@@ -141,6 +143,13 @@ const App = () => {
     setText('');
   };
 
+  /**
+   *
+   */
+  const handleToggleAlert = () => {
+    setAlertOpen((prevAlertOpen) => !prevAlertOpen);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles styles={{ body: { margin: 0, padding: 0 } }} />
@@ -159,6 +168,7 @@ const App = () => {
         onSubmit={handleSubmit}
         onToggleDialog={handleToggleDialog}
       />
+      <AlertDialog alertOpen={alertOpen} onEmpty={handleEmpty} onToggleAlert={handleToggleAlert} />
       <TodoItem todos={todos} filter={filter} onTodo={handleTodo} />
       <ActionButton todos={todos} onEmpty={handleEmpty} />
     </ThemeProvider>
