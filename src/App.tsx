@@ -1,7 +1,8 @@
 import { ThemeProvider, createTheme } from '@mui/material';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import { indigo, pink } from '@mui/material/colors';
-import React, { useState } from 'react';
+import localforage from 'localforage';
+import React, { useState, useEffect } from 'react';
 
 import { ActionButton } from './ActionButton';
 import { AlertDialog } from './AlertDialog';
@@ -149,6 +150,16 @@ const App = () => {
   const handleToggleAlert = () => {
     setAlertOpen((prevAlertOpen) => !prevAlertOpen);
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    localforage.getItem('todo-20200101').then((values) => setTodos(values as Todo[]));
+  }, []);
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    localforage.setItem('todo-20200101', todos);
+  }, [todos]);
 
   return (
     <ThemeProvider theme={theme}>
