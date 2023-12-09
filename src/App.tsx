@@ -1,13 +1,31 @@
+import { ThemeProvider, createTheme } from '@mui/material';
+import GlobalStyles from '@mui/material/GlobalStyles';
+import { indigo, pink } from '@mui/material/colors';
 import React, { useState } from 'react';
 
-type Todo = {
-  value: string;
-  readonly id: number; // 読み取り専用
-  checked: boolean;
-  removed: boolean;
-};
+import { ActionButton } from './ActionButton';
+import { AlertDialog } from './AlertDialog';
+import { FormDialog } from './FormDialog';
+import { QR } from './QR';
+import { SideBar } from './SideBar';
+import { TodoItem } from './TodoItem';
+import { ToolBar } from './ToolBar';
 
-type Filter = 'all' | 'checked' | 'unchecked' | 'removed';
+// テーマを作成
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: indigo[500],
+      light: '#757de8',
+      dark: '#002984',
+    },
+    secondary: {
+      main: pink[500],
+      light: '#ff6090',
+      dark: '#b0003a',
+    },
+  },
+});
 
 const App = () => {
   /**
@@ -15,11 +33,19 @@ const App = () => {
    * 現在のstateとそれを更新するための関数を返す
    * @see https://ja.react.dev/reference/react/useState
    */
-  const [text, setText] = useState('');
+  const [text, setText] = useState<string>('');
   const [todos, setTodos] = useState<Todo[]>([]);
   const [filter, setFilter] = useState<Filter>('all');
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const [qrOpen, setQrOpen] = useState<boolean>(false);
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [alertOpen, setAlertOpen] = useState<boolean>(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  /**
+   * 入力フォームを更新する
+   * @param {React.ChangeEvent<HTMLInputElement>} e
+   */
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     /**
      * setStateメソッドの実行はコンポーネントの再レンダリングをトリガーする
      * 原則としてsetStateメソッドを使ってstateの値を書き換える
@@ -29,9 +55,14 @@ const App = () => {
     setText(e.target.value);
   };
 
-  // todosを更新する
+  /**
+   * todoを追加する
+   */
   const handleSubmit = () => {
-    if (!text) return;
+    if (!text) {
+      setDialogOpen((prevDialogOpen) => !prevDialogOpen);
+      return;
+    }
 
     const newTodo: Todo = {
       value: text,
@@ -43,10 +74,15 @@ const App = () => {
     // スプレッド構文で元のtodos配列のすべての要素を列挙する
     setTodos((prevTodos) => [newTodo, ...prevTodos]);
     setText('');
+    setDialogOpen((prevDialogOpen) => !prevDialogOpen);
   };
 
   /**
    * ジェネリクスを使って更新メソッドをまとめる（編集、完了、削除）
+   * @param {number} id
+   * @param {K} key
+   * @param {V} value
+   *
    * ジェネリクスを使うことで、型も変数のように扱うことができるようになる
    * @see https://typescriptbook.jp/reference/generics
    *
@@ -69,91 +105,80 @@ const App = () => {
     });
   };
 
-  // フィルターを変更する
+  /**
+   * フィルターを変更する
+   * @param {Filter} argFilter
+   */
   const handleSort = (argFilter: Filter) => {
     setFilter(argFilter);
   };
 
-  // todoをフィルターする
-  const filteredTodos = todos.filter((todo) => {
-    // filter stateの値に応じて異なる内容の配列を返す
-    switch (filter) {
-      case 'all':
-        return !todo.removed;
-      case 'checked':
-        return todo.checked && !todo.removed;
-      case 'unchecked':
-        return !todo.checked && !todo.removed;
-      case 'removed':
-        return todo.removed;
-      default:
-        return todo;
-    }
-  });
-
+  /**
+   * ごみ箱を空にする
+   */
   const handleEmpty = () => {
     setTodos((prevTodos) => prevTodos.filter((todo) => !todo.removed));
   };
 
+  /**
+   * ドロワーの表示状態を反転させる
+   */
+  const handleToggleDrawer = () => {
+    setDrawerOpen((prevDrawerOpen) => !prevDrawerOpen);
+  };
+
+  /**
+   * QRコードの表示状態を反転させる
+   */
+  const handleToggleQR = () => {
+    setQrOpen((prevQrOpen) => !prevQrOpen);
+  };
+
+  /**
+   * ダイアログの表示状態を反転させる
+   */
+  const handleToggleDialog = () => {
+    setDialogOpen((prevDialogOpen) => !prevDialogOpen);
+    // フォームへの入力をクリア
+    setText('');
+  };
+
+  /**
+   *
+   */
+  const handleToggleAlert = () => {
+    setAlertOpen((prevAlertOpen) => !prevAlertOpen);
+  };
+
   return (
-    <div>
-      <select defaultValue="all" onChange={(e) => handleSort(e.target.value as Filter)}>
-        <option value="all">すべてのタスク</option>
-        <option value="checked">完了したタスク</option>
-        <option value="unchecked">現在のタスク</option>
-        <option value="removed">ごみ箱</option>
-      </select>
-      {/* フィルターが`removed`のときは「ゴミ箱を空にする」ボタンを表示 */}
-      {filter === 'removed' ? (
-        // eslint-disable-next-line no-console
-        <button
-          type="button"
-          onClick={() => handleEmpty()}
-          disabled={todos.filter((todo) => todo.removed).length === 0}>
-          ゴミ箱を空にする
-        </button>
-      ) : (
-        // フィルターが`checked`でなければTodo入力フォームを表示
-        filter !== 'checked' && (
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmit();
-            }}>
-            <input type="text" value={text} onChange={(e) => handleChange(e)} />
-            <input type="submit" value="追加" onSubmit={(e) => e.preventDefault()} />
-          </form>
-        )
-      )}
-      <ul>
-        {filteredTodos.map((todo) => {
-          /**
-           * Reactはリストをレンダーする際、どのアイテムに変更が加えられたかを特定する必要があるため、
-           * 変更・追加・削除・並び替えを検知するためには、リストの各項目を特定する一意な識別子（key）が必要
-           * 配列のindexを利用することは推奨されていない
-           */
-          return (
-            <li key={todo.id}>
-              <input
-                type="checkbox"
-                disabled={todo.removed}
-                checked={todo.checked}
-                onChange={() => handleTodo(todo.id, 'checked', !todo.checked)}
-              />
-              <input
-                type="text"
-                disabled={todo.checked || todo.removed}
-                value={todo.value}
-                onChange={(e) => handleTodo(todo.id, 'value', e.target.value)}
-              />
-              <button type="button" onClick={() => handleTodo(todo.id, 'removed', !todo.removed)}>
-                {todo.removed ? '復元' : '削除'}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles styles={{ body: { margin: 0, padding: 0 } }} />
+      <ToolBar filter={filter} onToggleDrawer={handleToggleDrawer} />
+      <SideBar
+        drawerOpen={drawerOpen}
+        onToggleQR={handleToggleQR}
+        onToggleDrawer={handleToggleDrawer}
+        onSort={handleSort}
+      />
+      <QR open={qrOpen} onClose={handleToggleQR} />
+      <FormDialog
+        text={text}
+        dialogOpen={dialogOpen}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        onToggleDialog={handleToggleDialog}
+      />
+      <AlertDialog alertOpen={alertOpen} onEmpty={handleEmpty} onToggleAlert={handleToggleAlert} />
+      <TodoItem todos={todos} filter={filter} onTodo={handleTodo} />
+      <ActionButton
+        todos={todos}
+        filter={filter}
+        alertOpen={alertOpen}
+        dialogOpen={dialogOpen}
+        onToggleAlert={handleToggleAlert}
+        onToggleDialog={handleToggleDialog}
+      />
+    </ThemeProvider>
   );
 };
 
