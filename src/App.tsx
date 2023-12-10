@@ -11,6 +11,7 @@ import { QR } from './QR';
 import { SideBar } from './SideBar';
 import { TodoItem } from './TodoItem';
 import { ToolBar } from './ToolBar';
+import { isTodos } from './lib/isTodo';
 
 // テーマを作成
 const theme = createTheme({
@@ -161,7 +162,7 @@ const App = () => {
    */
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    localforage.getItem('todo-20200101').then((values) => setTodos(values as Todo[]));
+    localforage.getItem('todo-20200101').then((values) => isTodos(values) && setTodos(values));
   }, []);
 
   useEffect(() => {
