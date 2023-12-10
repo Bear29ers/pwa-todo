@@ -151,6 +151,14 @@ const App = () => {
     setAlertOpen((prevAlertOpen) => !prevAlertOpen);
   };
 
+  /**
+   * useEffectは関数コンポーネント内で副作用（サイドエフェクト）を実行するためのフック
+   * 副作用とは、関数コンポーネントの出力（=レンダリング）に関係のない処理で、useEffectでレンダリングと副作用と切り離すことができる
+   * 第一引数のコールバックにはコンポーネントがマウントまたはアップデートされたあとに実行した処理を指定する
+   * 第二引数の配列には、useEffect内で参照している外部の変数や関数を列挙し、この依存配列内のいずれかの要素が作成・更新された時に第一引数の処理を実行する
+   * 空の配列を指定すると、マウントされたときのみに第一引数の処理を実行する。配列そのものを省略すると常に副作用が実行される。
+   * @see https://ja.react.dev/reference/react/useEffect
+   */
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     localforage.getItem('todo-20200101').then((values) => setTodos(values as Todo[]));
