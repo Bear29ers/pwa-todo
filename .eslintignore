@@ -1,0 +1,10 @@
+# config
+*.cjs
+vite.config.ts
+
+# build
+dist/
+build/
+bin
+obj/
+out/
