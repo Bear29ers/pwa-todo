@@ -1,5 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+// eslint-disable-next-line import/no-unresolved
+import { registerSW } from 'virtual:pwa-register';
 
 import App from './App';
 
@@ -23,3 +25,6 @@ root.render(
     <App />
   </StrictMode>
 );
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+registerSW();
