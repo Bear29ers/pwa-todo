@@ -1,30 +1,53 @@
-# React + TypeScript + Vite
+## PWA Todo App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The progressive web application that build by React & TypeScript & Vite.
 
-Currently, two official plugins are available:
+And also using Docker & Docker Compose in development.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<img src="https://github.com/Bear29ers/pwa-todo/assets/39920490/6683ab3b-181b-4a13-8f6d-272d29201a07" width="300" />
+<img src="https://github.com/Bear29ers/pwa-todo/assets/39920490/a5653f77-384d-4d1e-ad80-2e7e640dba6e" width="300" />
+<img src="https://github.com/Bear29ers/pwa-todo/assets/39920490/243aa437-262c-4dd7-ab09-870762a734c4" width="300" />
+<img src="https://github.com/Bear29ers/pwa-todo/assets/39920490/37362f55-15a1-4282-8b29-4d614ce72d10" width="300" />
 
-## Expanding the ESLint configuration
+[Deployed App](https://pwa-todo-ten.vercel.app/)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Prerequisite
 
-- Configure the top-level `parserOptions` property like this:
+- Node.js 16.0.0 or later
+- React 16.8 or later
+- A basic understanding of JavaScript
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+### Cloning the repositry
+
+```bash
+git clone https://github.com/Bear29ers/pwa-todo.git
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Install packages
+
+```bash
+npm i
+```
+
+### Start the app (with Docker)
+
+```bash
+npm run docker:start
+```
+
+The port will be 5173.
+
+### Stop the app (with Docker)
+
+```bash
+npm run docker:stop
+```
+
+### Available commands
+
+Running commands with npm `run [command]`
+
+| command | description                                                    |
+| ------- | -------------------------------------------------------------- |
+| `dev`   | starts a development instance of the app on local (not docker) |
+| `build` | build the app                                                  |
